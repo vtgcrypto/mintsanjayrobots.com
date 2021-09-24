@@ -1,0 +1,42 @@
+.u-section-1 {
+  background-image: url("images/tild3761-6365-4331-a661-646464663030__1.png");
+  background-position: 50% 50%;
+}
+
+.u-section-1 .u-sheet-1 {
+  min-height: 100vh;
+}
+
+.u-section-1 .u-form-1 {
+  width: 570px;
+  box-shadow: 0 0 40px 15px rgba(73,49,17,0.8);
+  background-image: none;
+  margin: 397px auto -2px;
+}
+
+.u-section-1 .u-form-group-1 {
+  margin-left: 0;
+}
+
+.u-section-1 .u-label-1 {
+  font-weight: 700;
+}
+
+.u-section-1 .u-btn-1 {
+  width: 100%;
+  border-style: none;
+  background-image: linear-gradient(#a7642e, #72683f);
+  font-weight: 700;
+}
+
+@media (max-width: 767px) {
+  .u-section-1 .u-form-1 {
+    width: 540px;
+  }
+}
+
+@media (max-width: 575px) {
+  .u-section-1 .u-form-1 {
+    width: 340px;
+  }
+}

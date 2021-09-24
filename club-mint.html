@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html style="font-size: 16px;">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta name="page_type" content="np-template-header-footer-from-plugin">
+    <title>Mint Sanjay Robots</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen">
+<link rel="stylesheet" href="SJR.css" media="screen">
+    <script class="u-script" type="text/javascript" src="jquery.js" defer=""></script>
+    <script class="u-script" type="text/javascript" src="nicepage.js" defer=""></script>
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i">
+    
+    
+    <script type="application/ld+json">{
+		"@context": "http://schema.org",
+		"@type": "Organization",
+		"name": "Mint Sanjay Robots",
+		"logo": "images/tild3631-3362-4339-a162-383462343937__photo.png"
+}</script>
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="Mint Sanjay Robots">
+    <meta property="og:description" content="">
+    <meta property="og:type" content="website">
+  </head>
+  <body class="u-body u-overlap"><header class="u-clearfix u-header u-header" id="sec-c5c0"><div class="u-clearfix u-sheet u-sheet-1">
+        <a href="sanjayrobots.com" class="u-align-center u-image u-logo u-image-1" title="sjr" data-image-width="1000" data-image-height="1000">
+          <img src="images/tild3631-3362-4339-a162-383462343937__photo.png" class="u-logo-image u-logo-image-1">
+        </a>
+      </div></header>
+    <section class="u-clearfix u-image u-section-1" id="sec-6353" data-image-width="1680" data-image-height="900">
+      <div class="u-clearfix u-sheet u-sheet-1">
+        <div class="u-align-center u-custom-color-2 u-form u-radius-34 u-form-1">
+          <form action="#" method="POST" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="custom" name="form" style="padding: 35px;">
+            <input type="hidden" id="siteId" name="siteId" value="43033206">
+            <input type="hidden" id="pageId" name="pageId" value="81231681">
+            <div class="u-form-group u-form-group-1">
+              <label for="text-7fd8" class="u-label u-text-body-alt-color u-label-1">SANJAYCREW! HOW MANY ROBOTS DO YOU WISH TO ASSEMBLE?</br>(MAX 20 per tx)</label>
+          <input id="amountofrobots" type="text" placeholder="1 - 20" id="text-7fd8" name="number" class="u-border-1 u-border-grey-30 u-custom-color-1 u-input u-input-rectangle u-radius-10" required="required" autofocus="autofocus">
+            </div>
+            <div class="u-align-center u-form-group u-form-submit">
+              <a id="assemble" href="#" class="u-border-none u-btn u-btn-round u-btn-submit u-button-style u-gradient u-none u-radius-13 u-text-body-alt-color u-btn-1"> ASSEMBLE AND MINT ROBOT(s)<br>
+              </a>
+          <input class="u-form-control-hidden">
+            </div>
+            <div class="u-form-send-message u-form-send-success"></div>
+            <div class="u-form-send-error u-form-send-message"></div>
+            <input type="hidden" value="" name="recaptchaResponse">
+          </form>
+        </div>
+      </div>
+    </section>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/web3/3.0.0-rc.5/web3.min.js" integrity="sha512-jRzb6jM5wynT5UHyMW2+SD+yLsYPEU5uftImpzOcVTdu1J7VsynVmiuFTsitsoL5PJVQi+OtWbrpWq/I+kkF4Q==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script>
+  const abi = [{
+    "inputs": [{
+      "internalType": "uint256",
+      "name": "robotAmount",
+      "type": "uint256"
+    }],
+    "name": "assemble",
+    "outputs": [],
+    "stateMutability": "payable",
+    "type": "function"
+  },
+  {
+    "inputs": [{
+      "internalType": "uint256",
+                "name": "robotAmount",
+                "type": "uint256"
+            }],
+            "name": "assembleAsAPreviousOwner",
+            "outputs": [],
+            "stateMutability": "payable",
+            "type": "function"
+            }
+        ];
+        const address = "0xc188f455507efa8102F7AFFa76E4D7Ef462F35D4";
+    
+    
+        function loadWeb3() {
+            if (window.ethereum) {
+                window.web3 = new Web3(window.ethereum);
+                window.ethereum.enable();
+            } else {
+                window.alert(
+                    "Non-Ethereum browser detected. You should consider trying MetaMask!"
+                );
+            }
+        }
+
+        document.getElementById("assemble").onclick=async ()=>{
+            var web3 = window.web3;
+            var accounts = [];
+            await web3.eth.getAccounts().then((e) => {
+                accounts = e;
+            });
+            await web3.eth.net.getId().then((e) => {
+                console.log(e);
+                networkId = e;
+            });
+            if (networkId == 1) {
+                var amountOfRobots = parseInt(document.getElementById("amountofrobots").value);
+
+                var contract = new web3.eth.Contract(abi, address);
+
+                var assembleMethod = contract.methods.assembleAsAPreviousOwner(amountOfRobots);
+                
+                var options = {
+                    from: accounts[0],
+                    value: 30000000000000000 * amountOfRobots,
+                }
+
+                var assembleGasEstimate = await assembleMethod.estimateGas(options);
+
+                options = {
+                    ...options,
+                    gas: parseInt(1.2 * assembleGasEstimate)
+                };
+
+                contract.methods
+                    .assembleAsAPreviousOwner(amountOfRobots)
+                    .send(options)
+                    .on("transactionHash", function (hash) {
+                        document.getElementById(
+                            "etherLink"
+                        ).innerHTML = `<a href="https://etherscan.io/tx/${hash}">Go to Etherscan</a>`;
+                    });
+                // .then(
+                //   (e) =>
+                //     (location.href =
+                //       "https://opensea.io/assets/" +
+                //       address +
+                //       "/" +
+                //       (+document.getElementById("totalSupply").innerText + 1))
+                // );
+            } else {
+                window.alert("Smart contract not deployed to detected network.");
+            }
+        };
+
+        (async function () {
+            loadWeb3();
+        //     countS = document.getElementById("mintCount");
+        //     countS.innerHTML = count;
+            var web3 = window.web3;
+            let networkId = 0;
+            await web3.eth.net.getId().then((e) => {
+                console.log(e);
+                networkId = e;
+            });
+        //     if (networkId == 1) {
+        //         var contract = new web3.eth.Contract(abi, address);
+        //         let totalSupply = document.getElementById("totalSupply");
+        //         let networkId = 0;
+
+        //         let buy = document.getElementById("buy");
+        //         let buy2 = document.getElementById("buy2");
+        //         let label = document.getElementById("label");
+        //         contract.methods
+        //             .getTokensCount()
+        //             .call()
+        //             .then((t) => {
+        //                 totalSupply.innerText = t;
+        //                 if (t >= MAX) {
+        //                     buy.innerHTML = "";
+        //                     buy2.innerHTML = "";
+        //                     label.innerText = "Minting completed";
+        //                 }
+        //             });
+        //     } else {
+        //         document.getElementById("less").innerHTML =
+        //             "<b style='color: white; text-align: center'>Smart contract not deployed <br /> to detected network.</b>";
+        //         alert("Smart contract not deployed to detected network.");
+        //     }
+        })();
+    </script>
+    
+    
+    <footer class="u-align-center u-clearfix u-footer u-grey-80 u-footer" id="sec-f453"><div class="u-clearfix u-sheet u-valign-middle u-sheet-1">
+        <p class="u-small-text u-text u-text-variant u-text-1"> © 2021 SANJAY_SICKO</p>
+      </div></footer>
+  </body>
+</html>
